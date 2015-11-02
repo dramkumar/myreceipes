@@ -4,7 +4,7 @@
 <% @receipes.each do |receipe | %>
     <div class="row">
         
-          <div class="col-lg-8 well">
+          <div class="col-lg-6 well">
             <section class="chef_info center">
                 <%= gravatar_for receipe.chef, size: 100 %>
                 <h5>Chef name: <%= receipe.chef.chefname %></h5>    
@@ -15,7 +15,11 @@
             <p>
                 <span class='quiet'><small><%= time_ago_in_words(receipe.created_at)%> ago</small></span>
             </p>
+            <div class="col-md-4">
+            <%= image_tag(receipe.picture.url, size: "250X150", class: "gravatar") if receipe.picture? %>
         </div>
+        </div>
+        
         
     </div>
 <% end %>

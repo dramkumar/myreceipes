@@ -42,7 +42,7 @@ class ReceipesController < ApplicationController
     private 
     
         def receipe_params
-            params.require(:receipe).permit(:name,:summary,:description)
+            params.require(:receipe).permit(:name,:summary,:description, :picture)
         end
     
 end
