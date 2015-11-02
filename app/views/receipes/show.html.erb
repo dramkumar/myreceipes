@@ -1,0 +1,23 @@
+<%= render 'shared/page_title', title: @receipe.name %>
+
+<div class="row">
+    <div class="col-md-4 pull-right center">
+        <%= gravatar_for @receipe.chef, size:200 %>
+        <p>
+            <h5>Brought to you by: <%= @receipe.chef.chefname%></h5>
+        </p>
+    </div>
+        
+    <div class="col-md-8">
+        <%= link_to "Edit this receipe",edit_receipe_path(@receipe), class: "btn btn-success pull-right" %>
+        <h3><%= @receipe.summary %></h3>
+        <div class="well">
+            <p>
+                <strong>Steps:</strong>
+            </p>
+            <%= simple_format(@receipe.description) %>
+        </div>
+    </div>
+</div>
+
+<h5><%= link_to "Return to Receipes listing", receipes_path, class:"btn btn-warning btn-small" %></h5>

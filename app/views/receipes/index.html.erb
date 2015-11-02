@@ -1,0 +1,21 @@
+<%= render 'shared/page_title', title: "All receipes" %>
+
+
+<% @receipes.each do |receipe | %>
+    <div class="row">
+        
+          <div class="col-lg-8 well">
+            <section class="chef_info center">
+                <%= gravatar_for receipe.chef, size: 100 %>
+                <h5>Chef name: <%= receipe.chef.chefname %></h5>    
+            </section>
+            <h4><%= link_to receipe.name, receipe_path(receipe)%></h4>
+            <p><%= receipe.summary %></p>
+            
+            <p>
+                <span class='quiet'><small><%= time_ago_in_words(receipe.created_at)%> ago</small></span>
+            </p>
+        </div>
+        
+    </div>
+<% end %>
