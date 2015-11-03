@@ -1,5 +1,6 @@
 <%= render 'shared/page_title', title: "All receipes" %>
 
+<%= will_paginate %>
 
 <% @receipes.each do |receipe | %>
     <div class="row">
@@ -11,9 +12,23 @@
             </section>
             <h4><%= link_to receipe.name, receipe_path(receipe)%></h4>
             <p><%= receipe.summary %></p>
+            <div class="pull-right">
+                <%= link_to like_receipe_path(receipe, like: true), method: :post do %>
+                    <i class="glyphicon glyphicon-thumbs-up"></i>
+                    &nbsp;&nbsp;
+                    <%= receipe.thumbs_up_total %>
+                <% end %>
+                
+                <%= link_to like_receipe_path(receipe, like: false), method: :post do %>
+                    <i class="glyphicon glyphicon-thumbs-down"></i>
+                      &nbsp;&nbsp;
+                    <%= receipe.thumbs_down_total %>
+                <% end %>
+            </div>
             
             <p>
-                <span class='quiet'><small><%= time_ago_in_words(receipe.created_at)%> ago</small></span>
+                <span class='quiet'><small> created: <%= time_ago_in_words(receipe.created_at)%> ago,</small></span>
+                <span class='quiet'><small> updated: <%= time_ago_in_words(receipe.updated_at)%> ago</small></span>
             </p>
             <div class="col-md-4">
             <%= image_tag(receipe.picture.url, size: "250X150", class: "gravatar") if receipe.picture? %>
@@ -23,3 +38,5 @@
         
     </div>
 <% end %>
+
+<%= will_paginate %>
