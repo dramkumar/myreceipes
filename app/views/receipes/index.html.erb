@@ -7,7 +7,7 @@
         
           <div class="col-lg-6 well">
             <section class="chef_info center">
-                <%= gravatar_for receipe.chef, size: 100 %>
+                <%= link_to gravatar_for(receipe.chef, size: 100), chef_path(receipe.chef) %>
                 <h5>Chef name: <%= receipe.chef.chefname %></h5>    
             </section>
             <h4><%= link_to receipe.name, receipe_path(receipe)%></h4>

@@ -1,0 +1,43 @@
+<%= render 'shared/page_title', title: "Chef: " + @chef.chefname %>
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4 center">
+        <%= gravatar_for @chef, size:200 %>
+        <hr/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-4 center">
+        <h3><em>Receipes:</em></h3>
+        <%= will_paginate @receipes %>
+    </div>
+</div>
+
+<% @chef.receipes.each do |receipe | %>
+    <div class="row">
+        
+          <div class="col-lg-6 well col-lg-offset-3">
+            <h4><%= link_to receipe.name, receipe_path(receipe)%></h4>
+            <p><%= receipe.summary %></p>
+            <p>
+                <span class='quiet'><small> created: <%= time_ago_in_words(receipe.created_at)%> ago,</small></span>
+                <span class='quiet'><small> updated: <%= time_ago_in_words(receipe.updated_at)%> ago</small></span>
+            </p>
+            <div class="pull-right">
+                <%= link_to like_receipe_path(receipe, like: true), method: :post do %>
+                    <i class="glyphicon glyphicon-thumbs-up"></i>
+                    &nbsp;&nbsp;
+                    <%= receipe.thumbs_up_total %>
+                <% end %>
+                
+                <%= link_to like_receipe_path(receipe, like: false), method: :post do %>
+                    <i class="glyphicon glyphicon-thumbs-down"></i>
+                      &nbsp;&nbsp;
+                    <%= receipe.thumbs_down_total %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+<% end %>
+<%= will_paginate @receipes %>
