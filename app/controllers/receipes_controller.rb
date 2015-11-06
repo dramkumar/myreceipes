@@ -1,11 +1,14 @@
 class ReceipesController < ApplicationController
+    before_action :set_receipe, only: [:like, :edit, :update, :show]
+    before_action :require_user, except: [:show, :index]
+    before_action :require_same_user, only:  [:edit, :update]
     
     def index
         @receipes = Receipe.paginate(page: params[:page], per_page:4)
     end
 
     def show
-        @receipe = Receipe.find(params[:id])
+        
     end
    
     def new
@@ -14,7 +17,7 @@ class ReceipesController < ApplicationController
    
     def create
         @receipe = Receipe.new(receipe_params)
-        @receipe.chef = Chef.find(2)
+        @receipe.chef = current_user
         
         if @receipe.save
             flash[:success] = "Your receipe was created successfully!"
@@ -26,12 +29,10 @@ class ReceipesController < ApplicationController
     
     
     def edit
-        @receipe = Receipe.find(params[:id])
     end
     
     def update
-        @receipe = Receipe.find(params[:id])
-         if @receipe.update(receipe_params)
+        if @receipe.update(receipe_params)
             flash[:success] = "Your receipe was updated successfully!"
             redirect_to receipe_path(@receipe)
         else
@@ -40,8 +41,7 @@ class ReceipesController < ApplicationController
     end
     
     def like
-        @receipe = Receipe.find(params[:id])
-        like = Like.create(like: params[:like], chef: Chef.find(2), receipe: @receipe)
+        like = Like.create(like: params[:like], chef: current_user, receipe: @receipe)
         if like.valid?
             flash[:success] = "Your selection was successful"
             redirect_to :back
@@ -49,7 +49,6 @@ class ReceipesController < ApplicationController
             flash[:danger] = "Your can Like/dislike a receipe only once!"
             redirect_to :back
         end
-        
     end
     
     private 
@@ -57,5 +56,18 @@ class ReceipesController < ApplicationController
         def receipe_params
             params.require(:receipe).permit(:name,:summary,:description, :picture)
         end
+        
+        def set_receipe
+            @receipe = Receipe.find(params[:id])
+        end
+        
+        def require_same_user
+            if current_user != @receipe.chef
+                flash[:danger] = "You can only edit your own receipes"
+                redirect_to receipe_path
+            end
+        end
+        
+       
     
 end
